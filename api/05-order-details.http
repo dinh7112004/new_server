@@ -1,0 +1,82 @@
+### BIẾN MÔI TRƯỜNG
+@baseUrl = http://localhost:5000
+@token = YOUR_JWT_TOKEN_HERE
+@orderId = 674c1234567890abcdef9999
+
+### ============================================
+### CHI TIẾT ĐƠN HÀNG & HỦY ĐƠN
+### ============================================
+
+### 1. Lấy chi tiết đơn hàng theo ID
+
+GET {{baseUrl}}/api/orders/{{orderId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 2. User - Hủy đơn hàng (chỉ khi status = pending)
+
+PUT {{baseUrl}}/api/orders/{{orderId}}/cancel
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### ============================================
+### ADMIN: Cập nhật trạng thái đơn hàng
+### ============================================
+
+### 3. Admin - Cập nhật trạng thái: pending → confirmed
+
+PUT {{baseUrl}}/api/orders/{{orderId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "confirmed"
+}
+
+###
+
+### 4. Admin - Cập nhật trạng thái: confirmed → processing
+
+PUT {{baseUrl}}/api/orders/{{orderId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "processing"
+}
+
+###
+
+### 5. Admin - Cập nhật trạng thái: processing → shipping
+
+PUT {{baseUrl}}/api/orders/{{orderId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "shipping"
+}
+
+###
+
+### 6. Admin - Cập nhật trạng thái: shipping → delivered
+
+PUT {{baseUrl}}/api/orders/{{orderId}}/status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "delivered"
+}
+
+###
+
+### 7. Admin - Hủy đơn hàng (có thể hủy ở nhiều trạng thái)
+
+PUT {{baseUrl}}/api/orders/{{orderId}}/cancel
+Authorization: Bearer {{token}}
+Content-Type: application/json

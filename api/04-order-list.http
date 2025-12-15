@@ -1,0 +1,97 @@
+### BIẾN MÔI TRƯỜNG
+@baseUrl = http://localhost:5000
+@token = YOUR_JWT_TOKEN_HERE
+
+### ============================================
+### DANH SÁCH ĐỠN HÀNG - ORDER LIST (4 TRẠNG THÁI)
+### ============================================
+
+### 1. Lấy tất cả đơn hàng của user (tất cả trạng thái)
+
+GET {{baseUrl}}/api/orders/my-orders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 2. Lọc đơn hàng theo trạng thái: PENDING (Chờ xác nhận)
+
+GET {{baseUrl}}/api/orders/my-orders?status=pending
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 3. Lọc đơn hàng theo trạng thái: CONFIRMED (Đã xác nhận)
+
+GET {{baseUrl}}/api/orders/my-orders?status=confirmed
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 4. Lọc đơn hàng theo trạng thái: PROCESSING (Đang xử lý)
+
+GET {{baseUrl}}/api/orders/my-orders?status=processing
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 5. Lọc đơn hàng theo trạng thái: SHIPPING (Đang giao)
+
+GET {{baseUrl}}/api/orders/my-orders?status=shipping
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 6. Lọc đơn hàng theo trạng thái: DELIVERED (Đã giao)
+
+GET {{baseUrl}}/api/orders/my-orders?status=delivered
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 7. Lọc đơn hàng theo trạng thái: CANCELLED (Đã hủy)
+
+GET {{baseUrl}}/api/orders/my-orders?status=cancelled
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### ============================================
+### ADMIN: Lấy tất cả đơn hàng
+### ============================================
+
+### 8. Admin - Lấy tất cả đơn hàng (tất cả user)
+
+GET {{baseUrl}}/api/orders/admin/orders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 9. Admin - Lọc đơn hàng theo trạng thái
+
+GET {{baseUrl}}/api/orders/admin/orders?status=pending
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 10. Admin - Sắp xếp đơn hàng theo thời gian (mới nhất)
+
+GET {{baseUrl}}/api/orders/admin/orders?sort=desc
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 11. Admin - Sắp xếp đơn hàng theo thời gian (cũ nhất)
+
+GET {{baseUrl}}/api/orders/admin/orders?sort=asc
+Authorization: Bearer {{token}}
+Content-Type: application/json

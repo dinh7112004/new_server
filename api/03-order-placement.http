@@ -1,0 +1,107 @@
+### BIẾN MÔI TRƯỜNG
+@baseUrl = http://localhost:5000
+@token = YOUR_JWT_TOKEN_HERE
+
+### ============================================
+### ĐẶT HÀNG - ORDER PLACEMENT
+### ============================================
+
+### 1. Đặt hàng thanh toán tiền mặt (COD)
+
+POST {{baseUrl}}/api/orders/cash-order
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "product_id": "674a1234567890abcdef1234",
+      "name": "Áo thun nam",
+      "image": "https://example.com/image.jpg",
+      "size": "M",
+      "color": "Đen",
+      "quantity": 2,
+      "price": 250000
+    },
+    {
+      "product_id": "674a1234567890abcdef5678",
+      "name": "Quần jean",
+      "image": "https://example.com/jean.jpg",
+      "size": "L",
+      "color": "Xanh",
+      "quantity": 1,
+      "price": 450000
+    }
+  ],
+  "address": {
+    "full_name": "Nguyễn Văn A",
+    "phone_number": "0912345678",
+    "province": "Hồ Chí Minh",
+    "district": "Quận 1",
+    "ward": "Phường Bến Nghé",
+    "street": "123 Nguyễn Huệ"
+  },
+  "shipping_fee": 30000,
+  "total_amount": 980000
+}
+
+###
+
+### 2. Đặt hàng thanh toán VNPay
+
+POST {{baseUrl}}/api/orders/vnpay-order
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "items": [
+    {
+      "product_id": "674a1234567890abcdef1234",
+      "name": "Áo thun nam",
+      "image": "https://example.com/image.jpg",
+      "size": "M",
+      "color": "Đen",
+      "quantity": 2,
+      "price": 250000
+    }
+  ],
+  "address": {
+    "full_name": "Nguyễn Văn A",
+    "phone_number": "0912345678",
+    "province": "Hồ Chí Minh",
+    "district": "Quận 1",
+    "ward": "Phường Bến Nghé",
+    "street": "123 Nguyễn Huệ"
+  },
+  "shipping_fee": 30000,
+  "total_amount": 530000
+}
+
+###
+
+### 3. Tạo link thanh toán VNPay (nếu có route riêng)
+
+POST {{baseUrl}}/api/payments/vnpay/create-payment
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "order_id": "674c1234567890abcdef9999",
+  "amount": 530000,
+  "order_description": "Thanh toán đơn hàng #674c12",
+  "bank_code": ""
+}
+
+###
+
+### 4. Tạo link thanh toán MoMo (nếu có)
+
+POST {{baseUrl}}/api/payments/momo/create-payment
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "order_id": "674c1234567890abcdef9999",
+  "amount": 530000,
+  "order_info": "Thanh toán đơn hàng #674c12"
+}

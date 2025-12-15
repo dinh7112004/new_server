@@ -1,0 +1,60 @@
+### BIẾN MÔI TRƯỜNG
+@baseUrl = http://localhost:5000
+
+### ============================================
+### XÁC THỰC - AUTHENTICATION
+### ============================================
+
+### 1. Đăng ký tài khoản
+
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "full_name": "Nguyễn Văn A",
+  "email": "user@example.com",
+  "password": "password123",
+  "phone_number": "0912345678"
+}
+
+###
+
+### 2. Xác thực OTP
+
+POST {{baseUrl}}/api/auth/verify-otp
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "otp": "123456"
+}
+
+###
+
+### 3. Đăng nhập
+
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+
+# Response sẽ trả về token, copy token này và paste vào biến @token ở các file .http khác
+
+###
+
+### ============================================
+### LƯU Ý QUAN TRỌNG
+### ============================================
+
+# Sau khi đăng nhập thành công, bạn sẽ nhận được response như sau:
+# {
+#   "message": "Đăng nhập thành công",
+#   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+#   "user": { ... }
+# }
+
+# Copy token và paste vào biến @token ở đầu các file .http khác:
+# @token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...

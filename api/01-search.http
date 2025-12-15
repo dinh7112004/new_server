@@ -1,0 +1,40 @@
+### 1. TÌM KIẾM SẢN PHẨM
+### Tìm kiếm theo từ khóa (tên hoặc danh mục)
+
+GET http://localhost:5000/api/products/search?keyword=áo
+Content-Type: application/json
+
+###
+
+### 2. Tìm kiếm với phân trang
+
+GET http://localhost:5000/api/products/search?keyword=giày&page=1&limit=10
+Content-Type: application/json
+
+###
+
+### 3. Lấy tất cả sản phẩm (có filter)
+
+GET http://localhost:5000/api/products?category=electronics&brand=samsung
+Content-Type: application/json
+
+###
+
+### 4. Lấy sản phẩm mới nhất
+
+GET http://localhost:5000/api/products/newest
+Content-Type: application/json
+
+###
+
+### 5. Lấy sản phẩm liên quan theo danh mục
+
+GET http://localhost:5000/api/products/related/by-category?categoryId=674a1234567890abcdef1234&limit=5
+Content-Type: application/json
+
+###
+
+### 6. Lấy chi tiết sản phẩm
+
+GET http://localhost:5000/api/products/674a1234567890abcdef1234
+Content-Type: application/json

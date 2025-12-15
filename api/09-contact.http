@@ -1,0 +1,103 @@
+### BIẾN MÔI TRƯỜNG
+@baseUrl = http://localhost:5000
+@token = YOUR_JWT_TOKEN_HERE
+
+### ============================================
+### LIÊN HỆ / HỖ TRỢ - CONTACT / SUPPORT
+### ============================================
+
+### LƯU Ý:
+### Tính năng liên hệ có thể sử dụng Chat API để user chat với admin/support
+
+### 1. Lấy danh sách cuộc trò chuyện của user
+
+GET {{baseUrl}}/api/chat-new/conversations
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 2. Tạo cuộc trò chuyện mới với admin (support)
+
+POST {{baseUrl}}/api/chat-new/conversations
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "participant_id": "ADMIN_USER_ID_HERE",
+  "message": "Xin chào, tôi cần hỗ trợ về đơn hàng"
+}
+
+###
+
+### 3. Gửi tin nhắn trong cuộc trò chuyện
+
+POST {{baseUrl}}/api/chat-new/conversations/674g1234567890abcdef4444/messages
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Tôi muốn hỏi về tình trạng đơn hàng #12345",
+  "type": "text"
+}
+
+###
+
+### 4. Lấy tin nhắn trong cuộc trò chuyện
+
+GET {{baseUrl}}/api/chat-new/conversations/674g1234567890abcdef4444/messages
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 5. Gửi tin nhắn có hình ảnh
+
+POST {{baseUrl}}/api/chat-new/conversations/674g1234567890abcdef4444/messages
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Đây là ảnh sản phẩm bị lỗi",
+  "type": "image",
+  "image_url": "https://example.com/product-issue.jpg"
+}
+
+###
+
+### ============================================
+### THÔNG TIN LIÊN HỆ TĨNH (Nếu có)
+### ============================================
+
+### 6. Lấy thông tin liên hệ của shop (có thể tạo endpoint riêng)
+
+# GET {{baseUrl}}/api/contact-info
+# Content-Type: application/json
+
+# Response example:
+# {
+#   "shop_name": "My Shop",
+#   "email": "support@myshop.com",
+#   "phone": "1900-xxxx",
+#   "address": "123 Main Street, City",
+#   "working_hours": "8:00 - 22:00",
+#   "social_media": {
+#     "facebook": "https://facebook.com/myshop",
+#     "instagram": "https://instagram.com/myshop"
+#   }
+# }
+
+###
+
+### 7. Gửi form liên hệ (nếu không dùng chat)
+
+# POST {{baseUrl}}/api/contact/send
+# Content-Type: application/json
+#
+# {
+#   "name": "Nguyễn Văn A",
+#   "email": "user@example.com",
+#   "phone": "0912345678",
+#   "subject": "Hỏi về sản phẩm",
+#   "message": "Tôi muốn biết thêm thông tin về sản phẩm X"
+# }

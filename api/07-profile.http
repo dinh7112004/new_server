@@ -1,0 +1,106 @@
+### BIẾN MÔI TRƯỜNG
+@baseUrl = http://localhost:5000
+@token = YOUR_JWT_TOKEN_HERE
+
+### ============================================
+### TRANG CÁ NHÂN - USER PROFILE
+### ============================================
+
+### 1. Lấy thông tin cá nhân
+
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 2. Cập nhật thông tin cá nhân
+
+PUT {{baseUrl}}/api/users/update-profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "full_name": "Nguyễn Văn A",
+  "phone_number": "0912345678",
+  "date_of_birth": "1995-05-15",
+  "gender": "male",
+  "avatar_url": "https://example.com/avatar.jpg"
+}
+
+###
+
+### 3. Đổi mật khẩu
+
+PUT {{baseUrl}}/api/users/change-password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "oldPassword": "oldPassword123",
+  "newPassword": "newPassword456"
+}
+
+###
+
+### ============================================
+### QUẢN LÝ ĐỊA CHỈ
+### ============================================
+
+### 4. Lấy danh sách địa chỉ
+
+GET {{baseUrl}}/api/addresses
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 5. Thêm địa chỉ mới
+
+POST {{baseUrl}}/api/addresses
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "full_name": "Nguyễn Văn A",
+  "phone_number": "0912345678",
+  "province": "Hồ Chí Minh",
+  "district": "Quận 1",
+  "ward": "Phường Bến Nghé",
+  "street": "123 Nguyễn Huệ",
+  "is_default": true
+}
+
+###
+
+### 6. Cập nhật địa chỉ
+
+PUT {{baseUrl}}/api/addresses/674e1234567890abcdef2222
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "full_name": "Nguyễn Văn B",
+  "phone_number": "0987654321",
+  "province": "Hà Nội",
+  "district": "Quận Ba Đình",
+  "ward": "Phường Điện Biên",
+  "street": "456 Hoàng Diệu",
+  "is_default": false
+}
+
+###
+
+### 7. Xóa địa chỉ
+
+DELETE {{baseUrl}}/api/addresses/674e1234567890abcdef2222
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 8. Đặt địa chỉ mặc định
+
+PUT {{baseUrl}}/api/addresses/674e1234567890abcdef2222/set-default
+Authorization: Bearer {{token}}
+Content-Type: application/json

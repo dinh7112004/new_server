@@ -1,0 +1,75 @@
+### BIẾN MÔI TRƯỜNG
+@baseUrl = http://localhost:5000
+@token = YOUR_JWT_TOKEN_HERE
+
+### ============================================
+### CÀI ĐẶT - SETTINGS (ĐĂNG XUẤT)
+### ============================================
+
+### LƯU Ý: 
+### Đăng xuất thường được xử lý ở phía client bằng cách:
+### 1. Xóa token khỏi localStorage/sessionStorage
+### 2. Redirect về trang login
+### 
+### Backend không cần endpoint đăng xuất vì đang dùng JWT stateless.
+### Tuy nhiên, nếu cần blacklist token, có thể tạo endpoint như sau:
+
+### 1. Đăng xuất (Client-side action)
+### Frontend chỉ cần:
+### - localStorage.removeItem('token')
+### - Redirect to /login
+
+# Không cần gọi API, chỉ cần xóa token ở client
+
+###
+
+### 2. (Optional) Nếu muốn server-side logout với token blacklist
+
+POST {{baseUrl}}/api/auth/logout
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### ============================================
+### CÀI ĐẶT KHÁC
+### ============================================
+
+### 3. Đổi mật khẩu (có thể đặt trong màn hình settings)
+
+PUT {{baseUrl}}/api/users/change-password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "oldPassword": "password123",
+  "newPassword": "newPassword456"
+}
+
+###
+
+### 4. Cập nhật trạng thái online/offline
+
+POST {{baseUrl}}/api/users/online-status
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "is_online": false
+}
+
+###
+
+### 5. Lấy thông báo
+
+GET {{baseUrl}}/api/notifications
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 6. Đánh dấu thông báo đã đọc
+
+PUT {{baseUrl}}/api/notifications/674d1234567890abcdef1111/read
+Authorization: Bearer {{token}}
+Content-Type: application/json

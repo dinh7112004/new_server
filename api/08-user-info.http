@@ -1,0 +1,100 @@
+### BIẾN MÔI TRƯỜNG
+@baseUrl = http://localhost:5000
+@token = YOUR_JWT_TOKEN_HERE
+
+### ============================================
+### THÔNG TIN NGƯỜI DÙNG - USER INFO
+### ============================================
+
+### 1. Lấy thông tin cá nhân
+
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 2. Cập nhật avatar (upload ảnh)
+
+POST {{baseUrl}}/api/upload/single
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="avatar.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/avatar.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+### 3. Sau khi upload, cập nhật avatar_url vào profile
+
+PUT {{baseUrl}}/api/users/update-profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "avatar_url": "https://res.cloudinary.com/xxx/image/upload/v123/avatar.jpg"
+}
+
+###
+
+### 4. Lấy lịch sử đơn hàng
+
+GET {{baseUrl}}/api/orders/my-orders
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 5. Lấy danh sách yêu thích (wishlist)
+
+GET {{baseUrl}}/api/wishlists
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 6. Thêm sản phẩm vào wishlist
+
+POST {{baseUrl}}/api/wishlists
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "product_id": "674a1234567890abcdef1234"
+}
+
+###
+
+### 7. Xóa sản phẩm khỏi wishlist
+
+DELETE {{baseUrl}}/api/wishlists/674f1234567890abcdef3333
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 8. Kiểm tra sản phẩm có trong wishlist không
+
+GET {{baseUrl}}/api/wishlists/check/674a1234567890abcdef1234
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 9. Lấy thông báo của user
+
+GET {{baseUrl}}/api/notifications
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###
+
+### 10. Đánh dấu thông báo đã đọc
+
+PUT {{baseUrl}}/api/notifications/674d1234567890abcdef1111/read
+Authorization: Bearer {{token}}
+Content-Type: application/json
