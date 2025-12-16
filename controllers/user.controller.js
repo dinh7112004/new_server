@@ -2,12 +2,14 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Danh sách các trường cần SELECT
+const USER_FIELDS = 'full_name email phone_number avatar_url date_of_birth gender street ward district province';
 
-// Lấy thông tin người dùng dựa vào token
+// Lấy thông tin người dùng dựa vào token (ĐÃ SỬA: Dùng hằng số để chọn đầy đủ trường)
 exports.getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user.userId).select(
-      'full_name email phone_number avatar_url date_of_birth gender'
+      USER_FIELDS // Sử dụng hằng số để đảm bảo đầy đủ các trường
     );
 
     if (!user) return res.status(404).json({ message: 'Không tìm thấy người dùng' });
@@ -19,33 +21,61 @@ exports.getMe = async (req, res) => {
   }
 };
 
-// Cập nhật thông tin cá nhân
+// Cập nhật thông tin cá nhân (ĐÃ SỬA: Xử lý tên trường 'phone' và 'phone_number', và select đầy đủ)
 exports.updateProfile = async (req, res) => {
   try {
-    const { full_name, phone_number, date_of_birth, gender, avatar_url } = req.body;
+    // ⭐ SỬA: Lấy giá trị phone_number từ body, chấp nhận cả 'phone' (từ Android) hoặc 'phone_number' (tên DB) ⭐
+    const phone_number_from_request = req.body.phone_number || req.body.phone;
+    
+    const { 
+      full_name, 
+      date_of_birth, 
+      gender, 
+      avatar_url,
+      street,
+      ward,
+      district,
+      province
+    } = req.body;
+
     const userId = req.user.userId;
 
     // Kiểm tra trùng số điện thoại
-    if (phone_number) {
-      const existing = await User.findOne({ phone_number });
+    if (phone_number_from_request) {
+      const existing = await User.findOne({ phone_number: phone_number_from_request });
       if (existing && existing._id.toString() !== userId) {
         return res.status(400).json({ message: 'Số điện thoại đã được sử dụng bởi người khác.' });
       }
     }
+    
+    // TẠO OBJECT CẬP NHẬT ĐẦY ĐỦ
+    const updateObject = {
+        full_name,
+        phone_number: phone_number_from_request, // Đã chuẩn hóa giá trị
+        date_of_birth,
+        gender,
+        avatar_url,
+        street,
+        ward,
+        district,
+        province
+    };
+    
+    // Lưu ý: Mongoose sẽ bỏ qua các trường 'undefined' nếu chúng ta không tự lọc
 
     const updated = await User.findByIdAndUpdate(
       userId,
-      {
-        full_name,
-        phone_number,
-        date_of_birth,
-        gender,
-        avatar_url
-      },
+      updateObject, 
       { new: true, runValidators: true }
-    ).select('full_name phone_number date_of_birth gender avatar_url');
+    )
+    // ⭐ SỬA: Đảm bảo select đầy đủ các trường, bao gồm phone_number ⭐
+    .select(USER_FIELDS);
 
-    // 🔑 Tạo lại token mới
+    if (!updated) {
+        return res.status(404).json({ message: 'Không tìm thấy người dùng để cập nhật' });
+    }
+
+    // Tạo lại token mới
     const token = jwt.sign(
       { userId: updated._id, role: req.user.role },
       process.env.JWT_SECRET,
@@ -54,8 +84,8 @@ exports.updateProfile = async (req, res) => {
 
     res.json({
       message: 'Cập nhật thông tin thành công',
-      user: updated,
-      token // ✅ Trả token mới về
+      user: updated, // TRẢ VỀ USER OBJECT ĐÃ CẬP NHẬT (có đủ các trường vừa select)
+      token 
     });
   } catch (err) {
     console.error('Lỗi khi cập nhật thông tin:', err);
@@ -93,7 +123,7 @@ exports.changePassword = async (req, res) => {
     user.password = hashed;
     await user.save();
 
-    // 🔐 Tạo lại JWT token mới
+    // Tạo lại JWT token mới
     const token = jwt.sign(
       { userId: user._id, role: user.role },
       process.env.JWT_SECRET,
@@ -197,4 +227,3 @@ exports.getOnlineStatus = async (req, res) => {
     });
   }
 };
-

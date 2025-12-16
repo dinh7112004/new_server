@@ -26,21 +26,19 @@ const Users = new Schema({
 
   phone_number: {
     type: String,
-    // unique: true,
+    // unique: true, // Lưu ý: Nếu muốn duy nhất thì mở comment
     // sparse: true,
     trim: true,
     default: null
   },
 
+  // ⭐ BỔ SUNG CÁC TRƯỜNG ĐỊA CHỈ PHẲNG ⭐
+  street: { type: String, default: null, trim: true },
+  ward: { type: String, default: null, trim: true },
+  district: { type: String, default: null, trim: true },
+  province: { type: String, default: null, trim: true },
+  // ⭐ KẾT THÚC BỔ SUNG ⭐
 
-  // shipping_phone_number: {
-  //   type: String,
-  //   default: function () {
-  //     return this.phone_number || '';
-  //   }
-  // },
-
-  // is_phone_verified: { type: Boolean, default: false },
 
   avatar_url: { type: String },
 
